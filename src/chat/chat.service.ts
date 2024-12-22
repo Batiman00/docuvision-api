@@ -124,7 +124,7 @@ export class ChatService {
       isUpload: data.isUpload,
       senderType: SenderType.USER,
     });
-    const context = await this.prisma.message.findFirstOrThrow({
+    const context = await this.prisma.message.findFirst({
         where: {
           chatId : userMessage.chat.id,
           upload: true,
