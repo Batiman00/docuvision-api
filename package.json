@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "pnpm prisma generate --schema=prisma/prisma.schema && pnpm prisma generate --schema=prisma/mongodb.prisma && nest build",
+    "build": "pnpm prisma generate --schema=./prisma/schema.prisma  && pnpm prisma generate --schema=./prisma/schemamongodb.prisma && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "pnpm build start",
     "start:dev": "nest start --watch",
