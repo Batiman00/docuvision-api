@@ -8,7 +8,7 @@
   "scripts": {
     "build": "pnpm prisma generate --schema=./prisma/schema.prisma  && pnpm prisma generate --schema=./prisma/schemaMongoDB.prisma && nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "pnpm build start",
+    "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
