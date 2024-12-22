@@ -66,23 +66,27 @@ export class ChatController {
     @Request() req,
   ) {
     let result = {};
+    let chatID = chatId
 
     if (file) {
       try {
         const tesseractResult = await Tesseract.recognize(file.buffer, 'eng');
         const extractedText = tesseractResult.data.text;
 
-        const message = await this.chatService.upsertChat({
+        const {chat ,userMessage} = await this.chatService.upsertChat({
           chatId: chatId,
           text: extractedText,
           userId: req.user.id,
           isUpload: true,
           senderType: SenderType.BOT,
         });
+        chatID = chat.id
 
         result = {
           message: 'Image processed and message saved successfully.',
-          data: message,
+          data: {"response" : userMessage,
+            chat : {id : chat.id}
+          },
         };
       } catch (error) {
         console.log(error)
@@ -93,7 +97,7 @@ export class ChatController {
     if (prompt) {
       try {
         const { userMessage, botResponse } = await this.chatService.receiveQuestionAndStoreResponse({
-          chatId: chatId,
+          chatId: chatID,
           text: prompt,
           userId: req.user.id,
           isUpload : false,
@@ -102,7 +106,9 @@ export class ChatController {
 
         result = {
           message: 'Success',
-          data: botResponse,
+          data: {"response":botResponse,
+            chat : {id : userMessage.chat.id}
+          },
         };
       } catch (error) {
         console.log(error)

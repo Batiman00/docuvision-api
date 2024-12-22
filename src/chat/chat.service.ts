@@ -126,7 +126,7 @@ export class ChatService {
     });
     const context = await this.prisma.message.findFirstOrThrow({
         where: {
-          ...(data.chatId ? { chatId: data.chatId } : {}),
+          chatId : userMessage.chat.id,
           upload: true,
         },
         orderBy: {
@@ -142,7 +142,7 @@ export class ChatService {
     const botResponse = await this.callGeminiApi(appenContext + data.text);
 
     await this.upsertChat({
-      chatId: data.chatId,
+      chatId: userMessage.chat.id,
       text: botResponse,
       userId: data.userId,
       isUpload: data.isUpload,
