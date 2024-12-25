@@ -72,7 +72,7 @@ export class ChatService {
         where: { id: data.chatId },
       });
     } else {
-      let title =  await this.callGeminiApi(`Give un title of 2 or 3 words to the following text: ${data.text}`)
+      let title =  await this.callGeminiApi(`Give un title of 2 or 3 words to the following text, don't give an optin, just pick up one: ${data.text}`)
       chat = await this.prisma.chat.create({
         data: {
           title: title,
