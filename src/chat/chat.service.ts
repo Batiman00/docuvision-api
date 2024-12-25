@@ -41,7 +41,7 @@ export class ChatService {
     })
     const userChats = await this.prisma.chat.findMany({
       where: { userId: user.id }, 
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: 'desc' },
       select: {
         id: true, 
         title: true,
