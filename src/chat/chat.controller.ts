@@ -5,6 +5,7 @@ import { ChatService } from './chat.service';
 import * as multer from 'multer';
 import { SenderType } from 'prisma/generated/db2';
 import { AuthGuard } from '@nestjs/passport';
+import { title } from 'process';
 
 @Controller('chat')
 export class ChatController {
@@ -15,7 +16,7 @@ export class ChatController {
   async getChatMessages(
     @Query('chatId') chatId: string,
     @Request() req
-  ): Promise<{ senderType: SenderType; content: string }[]> {
+  ): Promise<{ chatTitle: string; messages: { senderType: SenderType; content: string }[] }> {
     if (!req.user.id) {
       throw new BadRequestException('User ID is required.');
     }
@@ -85,7 +86,7 @@ export class ChatController {
         result = {
           message: 'Image processed and message saved successfully.',
           data: {"response" : userMessage,
-            chat : {id : chat.id}
+            chat : {id : chat.id, title : chat.title}
           },
         };
       } catch (error) {
@@ -107,7 +108,7 @@ export class ChatController {
         result = {
           message: 'Success',
           data: {"response":botResponse,
-            chat : {id : userMessage.chat.id}
+            chat : {id : userMessage.chat.id, title : userMessage.chat.title}
           },
         };
       } catch (error) {

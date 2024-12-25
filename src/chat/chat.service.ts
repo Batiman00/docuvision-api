@@ -9,7 +9,7 @@ import { GeminiService } from 'src/gemini/gemini.service';
 export class ChatService {
   constructor(private readonly prisma: PrismaServiceMongoDB, private readonly geminiService: GeminiService) {}
 
-  async getChatMessages(chatId: string, userId: string): Promise<{ senderType: SenderType; content: string }[]> {
+  async getChatMessages(chatId: string, userId: string): Promise<{ chatTitle: string; messages: { senderType: SenderType; content: string }[] }> {
     const user = await this.prisma.user.findUnique({
         where : { User_ID_FK : userId}
     })
@@ -31,7 +31,7 @@ export class ChatService {
       },
     });
   
-    return messages;
+    return {messages : messages, chatTitle: chat.title}
   }
   
 

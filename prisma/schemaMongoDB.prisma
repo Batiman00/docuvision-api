@@ -20,6 +20,7 @@ model Chat {
   messages Message[]  @relation("ChatMessages") // Relation to Message
   userId   String     @map("user_id") @db.ObjectId
   user     User       @relation("UserChats", fields: [userId], references: [id])
+  createdAT  DateTime @default(now())
 }
 
 model Message {
