@@ -3,9 +3,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import * as Tesseract from 'tesseract.js';
 import { ChatService } from './chat.service';
 import * as multer from 'multer';
-import { SenderType } from 'prisma/generated/db2';
+import { SenderType } from '@prisma/client';
 import { AuthGuard } from '@nestjs/passport';
-import { title } from 'process';
 
 @Controller('chat')
 export class ChatController {

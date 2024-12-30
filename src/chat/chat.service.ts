@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaServiceMongoDB } from 'src/database/prisma/prisma.service';
-import { SenderType, Chat } from "../../prisma/generated/db2";
+import { SenderType, Chat } from "@prisma/client";
 import { ObjectId } from "mongodb";
-import axios from 'axios';
 import { GeminiService } from 'src/gemini/gemini.service';
 
 @Injectable()

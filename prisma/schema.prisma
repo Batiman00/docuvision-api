@@ -1,29 +1,39 @@
 generator client {
   provider = "prisma-client-js"
+  binaryTargets = ["linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "mongodb"
+  url      = env("DATABASE_MONGODB_URL")
 }
-
 
 model User {
-  id               String          @id @default(uuid())
-  name             String
-  email            String          @unique
-  emailVerified    DateTime?
-  password         String
-  passwordResets   PasswordReset[]
-  verificationToken String?
+  id        String @id @map("_id") @db.ObjectId
+  chats     Chat[] @relation("UserChats")
+  User_ID_FK String @unique
 }
 
-model PasswordReset {
-  id        String   @id @default(uuid())
-  token     String   @unique
-  userId    String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+model Chat {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  title    String
+  messages Message[]  @relation("ChatMessages") // Relation to Message
+  userId   String     @map("user_id") @db.ObjectId
+  user     User       @relation("UserChats", fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+}
+
+model Message {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  timestamp  DateTime @default(now())
+  senderType SenderType
+  content    String
+  chatId     String   @map("chat_id") @db.ObjectId
+  chat       Chat     @relation("ChatMessages", fields: [chatId], references: [id])
+  upload     Boolean
+}
+
+enum SenderType {
+  BOT
+  USER
 }

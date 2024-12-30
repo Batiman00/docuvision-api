@@ -6,6 +6,7 @@ import { ChatModule } from './chat/chat.module';
 import { GeminiService } from './gemini/gemini.service';
 import { GeminiController } from './gemini/gemini.controller';
 import { GeminiModule } from './gemini/gemini.module';
+import { DrizzleModule } from './database/Drizzle/drizzle.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { GeminiModule } from './gemini/gemini.module';
     PrismaModule,
     ChatModule,
     GeminiModule,
+    DrizzleModule
   ],
   providers: [GeminiService],
   controllers: [GeminiController],

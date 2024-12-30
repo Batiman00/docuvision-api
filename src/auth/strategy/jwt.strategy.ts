@@ -1,11 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
+import { eq } from 'drizzle-orm';
+import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import {
   ExtractJwt,
   Strategy,
 } from 'passport-jwt';
-import { PrismaService } from 'src/database/prisma/prisma.service';
+import { DRIZZLE } from 'src/database/Drizzle/drizzle.provider';
+import * as schema from 'src/drizzle/schema';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(
@@ -14,7 +17,7 @@ export class JwtStrategy extends PassportStrategy(
 ) {
   constructor(
     config: ConfigService,
-    private prisma: PrismaService,
+    @Inject(DRIZZLE) private db: NodePgDatabase<typeof schema>
   ) {
     super({
       jwtFromRequest:
@@ -27,12 +30,9 @@ export class JwtStrategy extends PassportStrategy(
     sub: string;
     email: string;
   }) {
-    const user =
-      await this.prisma.user.findUnique({
-        where: {
-          id: payload.sub,
-        },
-      });
+    const user  = await this.db.query.users.findFirst({
+          where : eq(schema.users.id, payload.sub)
+        })
     delete user.password;
     return user;
   }
