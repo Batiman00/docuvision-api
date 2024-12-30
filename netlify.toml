@@ -1,8 +1,7 @@
 [build]
   functions = "dist/functions"
   publish = "dist"
-  functions = "functions" 
-  command = "npm run build"
+  command = "pnpm run build"
 
 [[redirects]]
   from = "/*"
