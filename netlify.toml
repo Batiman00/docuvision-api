@@ -1,5 +1,5 @@
 [build]
-  publish = "dist"
+  publish = "dist/scr/main.js"
   command = "pnpm run build"
 
 [[redirects]]
