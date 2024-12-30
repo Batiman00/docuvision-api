@@ -1,8 +1,12 @@
 [build]
-  publish = "dist/scr/main.js"
+  publish = "dist"
   command = "pnpm run build"
+  functions = "dist/src/server"
 
 [[redirects]]
   from = "/*"
-  to = "dist/scr/main.js"
+  to = "/.netlify/functions/server"
   status = 200
+
+[functions]
+included_files = ["!node_modules/.prisma/**"]
