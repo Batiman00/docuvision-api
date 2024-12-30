@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "pnpm prisma generate && pnpm drizzle-kit generate && nest build",
+    "build": "pnpm prisma generate && pnpm drizzle-kit generate && nest build && mkdir -p functions && cp -R dist/. functions",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
