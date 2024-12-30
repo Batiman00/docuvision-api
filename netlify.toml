@@ -1,9 +1,8 @@
 [build]
-  functions = "dist/"
   publish = "dist"
   command = "pnpm run build"
 
 [[redirects]]
   from = "/*"
-  to = "/.netlify/functions/main"
+  to = "dist/scr/main.js"
   status = 200
