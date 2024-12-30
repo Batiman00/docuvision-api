@@ -1,9 +1,9 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as serverless from 'serverless-http';
 
 async function bootstrap() {
-  console.log(process.env)
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: '*',
@@ -16,6 +16,10 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
-  await app.listen(process.env.PORT || 3333);
+  const globalPrefix = '.netlify/functions/main';
+  app.setGlobalPrefix(globalPrefix);
+  await app.init();
+  return serverless(app as unknown as serverless.Application);
 }
-bootstrap();
+
+export const handler = bootstrap();
